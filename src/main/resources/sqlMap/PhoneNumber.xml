@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dooioo.study.mybatis.dao.PhoneNumberDao">
+<mapper namespace="com.eric.study.mybatis.dao.PhoneNumberDao">
     <select id="getPhoneNumberById" resultType="PhoneNumber" parameterType="int">
         SELECT *from phone_number with(nolock)
         WHERE id = #{id}

@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 <typeAliases>
-    <typeAlias alias="PhoneNumber" type="com.dooioo.study.mybatis.model.PhoneNumber"/>
+    <typeAlias alias="PhoneNumber" type="com.eric.study.mybatis.model.PhoneNumber"/>
 </typeAliases>
 
 <mappers>

@@ -1,0 +1,7 @@
+.idea/workspace.xml
+*.swp
+/target
+.idea/
+*.iml
+com.eric.javastudy.iml
+.DS_Store

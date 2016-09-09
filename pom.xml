@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.eric</groupId>
-  <artifactId>com.eric.javastudy</artifactId>
+  <artifactId>com.eric.daily</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>com.eric.javastudy Maven Webapp</name>
+  <name>DailyPro</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,6 +14,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
@@ -32,7 +33,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>
-      <version>3.1.1.RELEASE</version>
+      <version>${spring.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
@@ -65,17 +66,20 @@
       <version>${spring.version}</version>
     </dependency>
 
-
+    <!--邮件发送-->
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>1.4.5</version>
     </dependency>
+
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-email</artifactId>
       <version>1.2</version>
     </dependency>
+
+
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
@@ -86,6 +90,7 @@
       <artifactId>aspectjweaver</artifactId>
       <version>1.7.0</version>
     </dependency>
+
     <dependency>
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>
@@ -96,15 +101,11 @@
       <artifactId>cglib-nodep</artifactId>
       <version>2.2.2</version>
     </dependency>
+
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
       <version>1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi</artifactId>
-      <version>3.9</version>
     </dependency>
 
     <dependency>
@@ -112,6 +113,7 @@
       <artifactId>standard</artifactId>
       <version>1.1.2</version>
     </dependency>
+
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>jsp-api</artifactId>
@@ -138,18 +140,18 @@
       <version>3.18.2-GA</version>
     </dependency>
 
-    <!-- 数据库连接 -->
+    <!-- 数据库连接驱动 -->
     <dependency>
-      <groupId>com.microsoft.sqlserver</groupId>
-      <artifactId>sqljdbc4</artifactId>
-      <version>4.4.0</version>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.38</version>
     </dependency>
 
     <!-- 数据库连接池 -->
     <dependency>
-      <groupId>dbcp</groupId>
-      <artifactId>dbcp</artifactId>
-      <version>1.4.d2</version>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
     </dependency>
 
     <!-- Mybatis 包 -->
@@ -205,7 +207,6 @@
       <version>2.1</version>
     </dependency>
 
-    <!--memcached jar start-->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -224,6 +225,49 @@
       <version>1.6</version>
     </dependency>
 
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.3.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>1.4.2.RELEASE</version>
+    </dependency>
+
+    <!-- jedis -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+
     <!--加载本地jar包-->
     <dependency>
       <groupId>com.danga</groupId>
@@ -233,15 +277,22 @@
       <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/java_memcached-release_2.6.6.jar</systemPath>
     </dependency>
 
-    <!--memcached jar end-->
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-    </dependency>
-
-
   </dependencies>
+
+  <build>
+    <finalName>DailyPro</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

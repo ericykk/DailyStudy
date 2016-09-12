@@ -194,12 +194,20 @@ public class ConfigurationMap {
 
 	private static Properties getProperties(File file) {
 		Properties properties = new Properties();
+		FileInputStream inputStream = null;
 		try {
-			properties.load(new FileInputStream(file));
+			inputStream = new FileInputStream(file);
+			properties.load(inputStream);
 		} catch (FileNotFoundException e) {
 			LOGGER.error("properties file not found");
 		} catch (IOException e) {
 			LOGGER.error("properties file IO exception");
+		}finally {
+			try {
+				inputStream.close();
+			}catch (Exception e){
+				e.printStackTrace();
+			}
 		}
 		return properties;
 	}

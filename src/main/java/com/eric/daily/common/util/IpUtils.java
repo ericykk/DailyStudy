@@ -68,7 +68,7 @@ public class IpUtils {
 			LOGGER.error(e.getMessage(), e);
 		} 
         
-		while (netInterfaces.hasMoreElements()) { 
+		while (netInterfaces != null && netInterfaces.hasMoreElements()) {
             if (bFindIP) { 
                 break; 
             } 

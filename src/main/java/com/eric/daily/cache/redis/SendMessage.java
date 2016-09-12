@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.io.Serializable;
+import java.nio.charset.Charset;
 
 /**
  * description:消息队列发送对象
@@ -49,7 +50,7 @@ public class SendMessage {
 
         Long l = (Long) this.getRedisTemplate().execute(new RedisCallback<Object>() {
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.lPush(key.getBytes(), value.getBytes());
+                return connection.lPush(key.getBytes(Charset.defaultCharset()), value.getBytes(Charset.defaultCharset()));
             }
         });
         return l;
@@ -64,12 +65,16 @@ public class SendMessage {
     public String getFromQueue(final String key) {
         byte[] bytes = (byte[]) this.getRedisTemplate().execute(new RedisCallback<Object>() {
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.lPop(key.getBytes());
+                return connection.lPop(key.getBytes(Charset.defaultCharset()));
             }
         });
         if(bytes != null)
         {
-            return new String(bytes);
+            try{
+                return new String(bytes,"Utf-8");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return null;
     }

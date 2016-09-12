@@ -12,11 +12,6 @@ public class FactoryTest {
     public static void main(String [] args){
         IToyCreator iToyCreator = new ConcreteToyCreator();
         IToy toy = iToyCreator.createToy(MenToy.class);
-        Byte a = 1;
-        Byte b = 1;
-        Byte c = 127;
-        Byte d = 127;
-        System.out.println(a==b);
-        System.out.println(c==d);
+        System.out.println(toy.getName());
     }
 }

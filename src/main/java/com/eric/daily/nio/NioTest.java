@@ -1,5 +1,7 @@
 package com.eric.daily.nio;
 
+import com.eric.daily.configuration.resource.ConfigurationMap;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
@@ -18,14 +20,23 @@ public class NioTest {
      * 采用流的方式读取数据
      */
     public static  void oldIoTest(){
+        FileInputStream inputStream = null;
         try {
-            FileInputStream inputStream = new FileInputStream("/Users/yangkang/Desktop/daily/NIO/知识清单");
+            inputStream = new FileInputStream(ConfigurationMap.getClassRootPath()+"log4j2.xml");
             byte [] buffer = new byte[1024];
-            inputStream.read(buffer);
-            System.out.println(new String(buffer));
-            inputStream.close();
+            //返回读取的字符长度
+            int readStatus =inputStream.read(buffer);
+            System.out.println(new String(buffer,"UTF-8"));
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            if(inputStream != null){
+                try{
+                    inputStream.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -33,28 +44,38 @@ public class NioTest {
      * 采用NIO的方式读取数据
      */
     public static void newIoTest(){
+        FileInputStream inputStream = null;
         try{
-            FileInputStream inputStream = new FileInputStream("/Users/yangkang/Desktop/daily/NIO/知识清单");
+            inputStream = new FileInputStream(ConfigurationMap.getClassRootPath()+"log4j2.xml");
             //为该文件输入流生成唯一的文件通道  FileChannel
             FileChannel channel = inputStream.getChannel();
             //开辟一个长度为1024的字节缓冲区
             ByteBuffer buffer = ByteBuffer.allocate(1024);
             channel.read(buffer);
-            System.out.println(new String(buffer.array()));
-            System.out.println(buffer.isDirect() + ", " + buffer.isReadOnly());
+            System.out.println(new String(buffer.array(),"UTF-8"));
             channel.close();
-            inputStream.close();
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            if(inputStream != null){
+                try{
+                    inputStream.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
 
     public static void copyFile(){
+        //获取源文件和目标文件的输入输出流
+        FileInputStream inputStream = null;
+        FileOutputStream outputStream = null;
         try{
             //获取源文件和目标文件的输入输出流
-            FileInputStream inputStream = new FileInputStream("/Users/yangkang/Desktop/daily/NIO/知识清单");
-            FileOutputStream outputStream = new FileOutputStream("/Users/yangkang/Desktop/daily/NIO/知识清单copy");
+            inputStream = new FileInputStream(ConfigurationMap.getClassRootPath()+"log4j2.xml");
+            outputStream = new FileOutputStream(ConfigurationMap.getClassRootPath()+"copyLog4j2.xml");
             //获取输入输出通道
             FileChannel inChannel = inputStream.getChannel();
             FileChannel outChannel = outputStream.getChannel();
@@ -77,6 +98,21 @@ public class NioTest {
             }
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            if(inputStream != null){
+                try{
+                    inputStream.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            if(outputStream != null){
+                try{
+                    outputStream.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

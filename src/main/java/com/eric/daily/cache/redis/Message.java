@@ -37,7 +37,7 @@ public class Message implements Serializable{
     }
 
     public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+        this.createDate = createDate != null?createDate:new Date();
     }
 
     public Date getActualSendTime() {
@@ -45,7 +45,8 @@ public class Message implements Serializable{
     }
 
     public void setActualSendTime(Date actualSendTime) {
-        this.actualSendTime = actualSendTime;
+
+        this.actualSendTime = actualSendTime !=null?actualSendTime:new Date();
     }
 
     public Integer getSendStatus() {

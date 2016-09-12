@@ -176,9 +176,12 @@ public class ConfigurationMap {
 		List<File> list = new ArrayList<>();
 		File file = new File(ConfigurationMap.class.getClassLoader().getResource(dir).getPath());
 		if (file.isDirectory()) {
-			for (File f : file.listFiles()) {
-				if (f.getName().endsWith(endStr)) {
-					list.add(f);
+			File[] fileList = file.listFiles();
+			if(fileList != null){
+				for (File f : fileList) {
+					if (f.getName().endsWith(endStr)) {
+						list.add(f);
+					}
 				}
 			}
 		}

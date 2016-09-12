@@ -22,11 +22,10 @@ public class IpUtils {
      * 判断当前系统是否是windows系统
      * @return
      */
-    public static boolean isWinOS() { 
+    public static boolean isWinOS() {
         if (System.getProperty("os.name").toLowerCase().contains("windows")) { 
         	return true; 
-        } 
-        
+        }
         return false; 
     } 
    

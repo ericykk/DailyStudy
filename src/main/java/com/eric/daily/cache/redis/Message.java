@@ -33,20 +33,20 @@ public class Message implements Serializable{
     }
 
     public Date getCreateDate() {
-        return createDate;
+        return createDate==null?null:(Date) createDate.clone();
     }
 
     public void setCreateDate(Date createDate) {
-        this.createDate = createDate != null?createDate:new Date();
+        this.createDate = createDate == null?null:createDate;
     }
 
     public Date getActualSendTime() {
-        return actualSendTime;
+        return actualSendTime==null?null:(Date) actualSendTime.clone();
     }
 
     public void setActualSendTime(Date actualSendTime) {
 
-        this.actualSendTime = actualSendTime !=null?actualSendTime:new Date();
+        this.actualSendTime = actualSendTime ==null?null:actualSendTime;
     }
 
     public Integer getSendStatus() {

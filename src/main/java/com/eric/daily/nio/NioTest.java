@@ -25,7 +25,7 @@ public class NioTest {
             inputStream = new FileInputStream(ConfigurationMap.getClassRootPath()+"log4j2.xml");
             byte [] buffer = new byte[1024];
             //返回读取的字符长度
-            int readStatus =inputStream.read(buffer);
+            inputStream.read(buffer);
             System.out.println(new String(buffer,"UTF-8"));
         } catch (Exception e) {
             e.printStackTrace();

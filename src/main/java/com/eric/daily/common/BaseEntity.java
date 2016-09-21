@@ -7,6 +7,7 @@ import java.io.Serializable;
  *
  */
 public class BaseEntity implements Serializable {
+
     protected static final long serialVersionUID = -3837567657603261711L;
     private int pageNo = 0;
     private int pageSize = 25;

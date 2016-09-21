@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:redis="http://www.springframework.org/schema/redis"
+       xmlns:redis="http://www.springframework.org/schema/redis" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-                            http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis-1.0.xsd">
+                            http://www.springframework.org/schema/redis http://www.springframework.org/schema/redis/spring-redis-1.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
     <bean id="redisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
@@ -12,12 +12,16 @@
         <property name="usePool" value="true"></property>
     </bean>
 
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
-        <property name="connectionFactory" ref="redisConnectionFactory"></property>
-    </bean>
-
     <!--Java消息对象序列化-->
     <bean id="jdkSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="redisConnectionFactory"></property>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer" ref="jdkSerializer"/>
+    </bean>
 
     <!--监听器类-->
     <bean id="smsMessageDelegateListener" class="com.eric.daily.cache.redis.MessageDelegateListener" />
@@ -38,21 +42,32 @@
         <redis:listener ref="smsMessageListener" method="handleMessage" serializer="jdkSerializer" topic="sms_queue_web_online" />
     </redis:listener-container>
 
-    <!-- jedis -->
+    <!-- Jedis连接池配置 -->
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!-- 最大能够闲置状态的对象数  -->
-        <property name="maxIdle" value="10" />
+        <property name="maxIdle" value="${redis.maxIdle}" />
         <!-- 最大分配的对象数 -->
-        <property name="maxTotal" value="60000" />
-        <property name="maxWaitMillis" value="3000"/>
+        <property name="maxTotal" value="${redis.maxTotal}" />
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"/>
         <!-- 当调用borrow Object方法时，是否进行有效性检查 -->
-        <property name="testOnBorrow" value="true" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
     </bean>
+
 
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
         <constructor-arg index="0" ref="jedisPoolConfig" />
         <constructor-arg index="1" value="${redis.host}" />
         <constructor-arg index="2" value="${redis.port}" type="int" />
     </bean>
+
+    <!--redis缓存拦截器-->
+    <bean id="methodCacheInterceptor" class="com.eric.daily.cache.redis.interceptor.MethodCacheInterceptor"/>
+
+    <aop:config>
+        <!--切入点 这里表示定义在redis.controller包下的任意方法的执行-->
+        <aop:pointcut id="methodPoint" expression="execution(* com.eric.daily.cache.redis.controller.*.*(..))"/>
+        <!--使用缓存拦截器-->
+        <aop:advisor advice-ref="methodCacheInterceptor" pointcut-ref="methodPoint"/>
+    </aop:config>
 
 </beans>

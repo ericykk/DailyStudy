@@ -1,8 +1,10 @@
-package com.eric.daily.common;
-
+package com.eric.daily.common.controller;
+import com.eric.daily.common.model.BaseEntity;
+import com.eric.daily.common.model.JsonResult;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**

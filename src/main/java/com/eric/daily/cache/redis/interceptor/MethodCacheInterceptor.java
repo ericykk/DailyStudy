@@ -19,16 +19,21 @@ public class MethodCacheInterceptor implements MethodInterceptor{
 
     @Autowired
     private RedisCacheService cacheService;
-    //默认缓存时间
-    private final Long defaultExpireTime = 300L;
 
+    /**
+     * redis和数据库同步
+     * 监听数据库insert delete update操作 然后更新redis缓存
+     * @param invocation
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
 
         Object value = null;
 
         Method method = invocation.getMethod();
-
+        //获取缓存注解
         RedisCache redisCache = method.getDeclaredAnnotation(RedisCache.class);
         //判断是否需要缓存
         if(redisCache == null){
@@ -46,7 +51,6 @@ public class MethodCacheInterceptor implements MethodInterceptor{
         if(cacheService.hasKey(key)){
             return cacheService.get(key);
         }
-
         try {
             value = invocation.proceed();
             if(value != null){
@@ -56,7 +60,7 @@ public class MethodCacheInterceptor implements MethodInterceptor{
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        cacheService.set(cacheKey,cacheValue,defaultExpireTime);
+                        cacheService.set(cacheKey,cacheValue,redisCache.expireTime());
                     }
                 }).start();
             }

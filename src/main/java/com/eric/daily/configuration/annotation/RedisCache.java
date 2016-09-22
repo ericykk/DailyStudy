@@ -15,4 +15,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RedisCache {
+    /**
+     * 缓存时间
+     * @return
+     */
+    long expireTime() default 3600L;
 }

@@ -1,4 +1,4 @@
-package com.eric.daily.common;
+package com.eric.daily.common.model;
 
 import java.io.Serializable;
 

@@ -1,6 +1,6 @@
 package com.eric.daily.configuration.interceptor;
 
-import com.eric.daily.common.JsonResult;
+import com.eric.daily.common.model.JsonResult;
 import com.eric.daily.configuration.annotation.AvoidDuplicateSubmission;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;

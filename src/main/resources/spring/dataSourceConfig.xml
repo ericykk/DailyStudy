@@ -53,13 +53,13 @@
         <!-- 自动扫描sqlmap目录下的所有SQL映射的xml文件 -->
         <property name="mapperLocations" value="classpath:sqlmap/*.xml" />
         <!-- 自动注册javabean别名 默认会使用javabean的首字母小写的非限定类名来作为它的别名-->
-        <property name="typeAliasesPackage" value="com.eric.daily.model"/>
+        <property name="typeAliasesPackage" value="com.eric.daily.cache.redis.model"/>
     </bean>
 
     <!-- 配置扫描器 采用mybatis接口形式访问映射文件 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 扫描基本包路径下的所有映射器接口类 采用分号或者逗号分隔 可设置多个包路径 -->
-        <property name="basePackage" value="com.eric.daily.dao" />
+        <property name="basePackage" value="com.eric.daily.cache.redis.dao" />
         <!--多个数据源 可设置具体的sqlSessionFactoryBean 单个数据源不必配置-->
         <property name="sqlSessionFactoryBeanName" value="utilSqlSessionFactory" />
     </bean>

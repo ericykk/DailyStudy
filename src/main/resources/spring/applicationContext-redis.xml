@@ -36,6 +36,7 @@
     <bean id="sendMessage" class="com.eric.daily.cache.redis.SendMessage">
         <property name="redisTemplate" ref="redisTemplate"/>
     </bean>
+
     <!--配置监听器-->
     <redis:listener-container>
         <!-- topic代表监听的频道，是一个正规匹配  其实就是你要订阅的频道-->
@@ -53,11 +54,25 @@
         <property name="testOnBorrow" value="${redis.testOnBorrow}" />
     </bean>
 
-
+    <!--单个redis配置-->
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
         <constructor-arg index="0" ref="jedisPoolConfig" />
         <constructor-arg index="1" value="${redis.host}" />
         <constructor-arg index="2" value="${redis.port}" type="int" />
+    </bean>
+
+    <!--分布式redis配置-->
+    <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool" scope="singleton">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1">
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis.host}"/>
+                    <constructor-arg name="port" value="${redis.port}"/>
+                    <constructor-arg name="timeout" value="${redis.timeout}"/>
+                </bean>
+            </list>
+        </constructor-arg>
     </bean>
 
     <!--redis缓存拦截器-->

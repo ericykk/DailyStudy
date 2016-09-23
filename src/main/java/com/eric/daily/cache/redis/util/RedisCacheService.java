@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 
 /**
- * description:redis cache服务类
+ * description:单个redis服务
  * author:Eric
  * Date:16/9/21
  * Time:15:54

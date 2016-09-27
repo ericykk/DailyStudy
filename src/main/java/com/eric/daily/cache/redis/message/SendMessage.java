@@ -1,9 +1,10 @@
-package com.eric.daily.cache.redis;
+package com.eric.daily.cache.redis.message;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+
 import java.io.Serializable;
 import java.nio.charset.Charset;
 

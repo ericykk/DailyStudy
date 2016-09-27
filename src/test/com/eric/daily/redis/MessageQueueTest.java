@@ -1,7 +1,7 @@
 package com.eric.daily.redis;
 
 import com.eric.daily.BaseTest;
-import com.eric.daily.cache.redis.SendMessage;
+import com.eric.daily.cache.redis.message.SendMessage;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,6 +1,7 @@
-package com.eric.daily.cache.redis;
+package com.eric.daily.cache.redis.message;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Map;
  * Time:15:40
  * version 1.0.0
  */
-public class MessageDelegateListener{
+public class MessageDelegateListener {
 
     /**
      * 订阅消息处理

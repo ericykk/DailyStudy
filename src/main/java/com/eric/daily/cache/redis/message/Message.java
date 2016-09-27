@@ -1,4 +1,4 @@
-package com.eric.daily.cache.redis;
+package com.eric.daily.cache.redis.message;
 
 import java.io.Serializable;
 import java.util.Date;

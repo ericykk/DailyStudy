@@ -1,6 +1,6 @@
 package com.eric.daily.cache.redis.interceptor;
 
-import com.eric.daily.cache.redis.util.RedisCacheService;
+import com.eric.daily.cache.redis.service.RedisCacheService;
 import com.eric.daily.configuration.annotation.RedisCache;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

@@ -1,39 +1,40 @@
-package com.eric.daily.cache.redis.util;
+package com.eric.daily.cache.redis.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
 /**
  * description:
  * author:Eric
- * Date:16/9/23
- * Time:18:20
+ * Date:16/9/27
+ * Time:15:25
  * version 1.0.0
  */
-public class RedisDataSource {
+@Repository
+public class RedisDataSourceService implements  RedisDataSource{
 
-    private Logger logger = LogManager.getLogger(RedisDataSource.class);
-
+    private Logger logger = LogManager.getLogger(RedisDataSourceService.class);
     @Autowired
     private ShardedJedisPool shardedJedisPool;
 
-
-    /**
-     * 获取redis服务
-     * @return
-     */
-    public ShardedJedis getRedisClient(){
+    @Override
+    public ShardedJedis getRedisClient() {
         ShardedJedis shardedJedis = null;
         try{
             shardedJedis = shardedJedisPool.getResource();
             return shardedJedis;
         }catch (Exception e){
-            e.printStackTrace();
-            logger.error("get RedisClient fail,the reason is" + e);
+            logger.error("get redis resource fail,the reason is"+e.getMessage());
         }
         return shardedJedis;
+    }
+
+    @Override
+    public void returnResource(ShardedJedis shardedJedis) {
+            shardedJedis.close();
     }
 }

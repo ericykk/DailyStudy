@@ -11,7 +11,7 @@ public class MemcachedUtil {
     /**
      * memcached 客户端单例
      */
-    private static MemCachedClient cachedClient =  new MemCachedClient();
+    private static MemCachedClient cachedClient = new MemCachedClient();
 
     static {
 
@@ -19,8 +19,8 @@ public class MemcachedUtil {
         SockIOPool pool = SockIOPool.getInstance();
 
         //服务器列表及其权重
-        String [] servers = {"127.0.0.1:11211"};
-        Integer [] weights = {3};
+        String[] servers = {"127.0.0.1:11211"};
+        Integer[] weights = {3};
 
         //设置服务器信息
         pool.setServers(servers);
@@ -30,7 +30,7 @@ public class MemcachedUtil {
         pool.setInitConn(10);
         pool.setMinConn(10);
         pool.setMaxConn(1000);
-        pool.setMaxIdle(1000*60*60);
+        pool.setMaxIdle(1000 * 60 * 60);
 
         //设置连接池守护线程的睡眠时间
         pool.setMaintSleep(60);
@@ -46,7 +46,7 @@ public class MemcachedUtil {
     }
 
 
-    public MemcachedUtil(){
+    public MemcachedUtil() {
 
     }
 
@@ -80,15 +80,16 @@ public class MemcachedUtil {
 
     /**
      * get_multi可以非同步地同时取得多个键值，其速度要比循环调用get快数十倍
+     *
      * @param keys
      * @return
      */
-    public static Map<String, Object> get(String [] keys){
+    public static Map<String, Object> get(String[] keys) {
         return cachedClient.getMulti(keys);
     }
 
 
-    public static boolean delete(String key){
+    public static boolean delete(String key) {
         return cachedClient.delete(key);
     }
 

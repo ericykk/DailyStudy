@@ -1,11 +1,11 @@
 package com.eric.daily.cache.redis.service;
 
 import com.eric.daily.cache.redis.repository.RedisDataSourceService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.ShardedJedis;
+
+import javax.annotation.Resource;
 
 /**
  * description:分布式redis客户端
@@ -14,30 +14,30 @@ import redis.clients.jedis.ShardedJedis;
  * Time:18:20
  * version 1.0.0
  */
+@Slf4j
 @Service
 public class RedisDistributedService {
 
-    private Logger logger = LogManager.getLogger(RedisDistributedService.class);
-
-    @Autowired
+    @Resource
     private RedisDataSourceService redisDataSourceService;
 
 
     /**
      * 设置值
+     *
      * @param key
      * @param value
      * @return
      */
-    public String set(String key,String value){
+    public String set(String key, String value) {
         String result = null;
         ShardedJedis shardedJedis = redisDataSourceService.getRedisClient();
-        if(shardedJedis != null){
-            try{
+        if (shardedJedis != null) {
+            try {
                 result = shardedJedis.set(key, value);
-            }catch (Exception e){
-                logger.error("set operation fail",e);
-            }finally {
+            } catch (Exception e) {
+                log.error("set operation fail", e);
+            } finally {
                 shardedJedis.close();
             }
         }
@@ -46,18 +46,19 @@ public class RedisDistributedService {
 
     /**
      * 根据key获取value
+     *
      * @param key
      * @return
      */
-    public String get(String key){
+    public String get(String key) {
         String result = null;
         ShardedJedis shardedJedis = redisDataSourceService.getRedisClient();
-        if(shardedJedis != null){
-            try{
+        if (shardedJedis != null) {
+            try {
                 result = shardedJedis.get(key);
-            }catch (Exception e){
-                logger.error("get value fail",e);
-            }finally {
+            } catch (Exception e) {
+                log.error("get value fail", e);
+            } finally {
                 shardedJedis.close();
             }
         }

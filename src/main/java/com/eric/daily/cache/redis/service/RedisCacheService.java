@@ -1,12 +1,11 @@
 package com.eric.daily.cache.redis.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,51 +15,56 @@ import java.util.concurrent.TimeUnit;
  * Time:15:54
  * version 1.0.0
  */
+@Slf4j
 @Service
 public class RedisCacheService {
 
-    private Logger logger = LogManager.getLogger(RedisCacheService.class);
 
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
 
 
     /**
      * 批量删除key
+     *
      * @param keys
      */
-    public void remove(final String ... keys){
-        for (String key:keys) {
+    public void remove(final String... keys) {
+        for (String key : keys) {
             remove(key);
         }
     }
 
     /**
      * 删除对应的key的值
+     *
      * @param key
      */
-    public void remove(final String key){
-        if(redisTemplate.hasKey(key)){
+    @SuppressWarnings("unchecked")
+    public void remove(final String key) {
+        if (redisTemplate.hasKey(key)) {
             redisTemplate.delete(key);
         }
     }
 
     /**
      * 判断缓存中是否存在对应的value
+     *
      * @param key
      * @return
      */
-    public boolean hasKey(final String key){
+    public boolean hasKey(final String key) {
         return redisTemplate.hasKey(key);
     }
 
     /**
      * 读取缓存
+     *
      * @param key
      * @return
      */
-    public Object get(final String key){
-        Object value = null;
+    public Object get(final String key) {
+        Object value;
         ValueOperations operations = redisTemplate.opsForValue();
         value = operations.get(key);
         return value;
@@ -69,20 +73,21 @@ public class RedisCacheService {
 
     /**
      * 设置缓存
+     *
      * @param key
      * @param value
      * @return
      */
-    public boolean set(final String key,Object value){
-
+    @SuppressWarnings("unchecked")
+    public boolean set(final String key, Object value) {
         boolean isSuccess = false;
-        try{
+        try {
             ValueOperations operations = redisTemplate.opsForValue();
-            operations.set(key,value);
+            operations.set(key, value);
             isSuccess = true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            logger.error("设置缓存失败",e);
+            log.error("设置缓存失败", e);
         }
 
         return isSuccess;
@@ -91,21 +96,23 @@ public class RedisCacheService {
 
     /**
      * 设置缓存
+     *
      * @param key
      * @param value
      * @param expireTime 缓存时间
      * @return
      */
-    public boolean set(final  String key,Object value,Long expireTime){
+    @SuppressWarnings("unchecked")
+    public boolean set(final String key, Object value, Long expireTime) {
 
         boolean isSuccess = false;
 
-        try{
+        try {
             ValueOperations operations = redisTemplate.opsForValue();
-            operations.set(key,value);
-            //设置缓存时间
-            redisTemplate.expire(key,expireTime, TimeUnit.SECONDS);
-        }catch (Exception e){
+            operations.set(key, value);
+            //设置缓存
+            isSuccess = redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return isSuccess;

@@ -17,7 +17,8 @@ import java.lang.annotation.Target;
 public @interface RedisCache {
     /**
      * 缓存时间
+     *
      * @return
      */
-    long expireTime() default 3600L;
+    long expireTime() default 7200L;
 }
